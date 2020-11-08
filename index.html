@@ -23,8 +23,8 @@
       }
 
       #root {
-        width: 256px;
-        height: 256px;
+        width: 225px;
+        height: 225px;
       }
 
       a {
@@ -37,21 +37,25 @@
     </style>
   </head>
   <body>
-    <canvas width="256" height="256" id="root"></canvas>
+    <canvas width="225" height="225" id="root"></canvas>
 
     <p>
       <label>
-        <code>(t, i, x, y) =></code>
-        <input type="text" id="formula" value="Math.sin(y/8 + t)" maxlength="20" />
+        <code>(t, r, th) =></code>
+        <input type="text" id="formula" value="Math.sin(th + t + r)" maxlength="20" />
       </label>
     </p>
 
     <p>
-      A simple clone of <a href="https://tixy.land">tixy.land</a>.
+      trth (pronounced "truth") is creative code golf with polar coordinates.
+    </p>
+
+    <p>
+      Inspired by <a href="https://tixy.land">tixy.land</a>.
     </p>
 
     <script>
-      const SIZE = 16;
+      const SIZE = 15;
 
       const startTime = Date.now();
 
@@ -62,11 +66,20 @@
         const now = Date.now();
         const t = (now - startTime) / 1_000;
 
-        context.clearRect(0, 0, 16*SIZE, 16*SIZE);
+        context.clearRect(0, 0, 15*SIZE, 15*SIZE);
 
-        for (let y = 0; y < 16; y += 1) {
-          for (let x = 0; x < 16; x += 1) {
-            const i = 16 * y + x;
+        for (let y = 0; y < 15; y += 1) {
+          for (let x = 0; x < 15; x += 1) {
+            const r = Math.sqrt((7 - x)**2 + (7 - y)**2);
+
+            const x1 = x - 7;
+            const y1 = y - 7;
+
+            if (x1 === 0 && y1 === 0) continue;
+
+            let th = x1 === 0
+              ? (y1 >= 0 ? Math.PI / 2 : 3 * Math.PI / 2)
+              : (x1 < 0 ? Math.PI + Math.atan(y1 / x1) : Math.atan(y1 / x1));
 
             let radius;
             try {
