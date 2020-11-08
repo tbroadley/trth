@@ -67,6 +67,22 @@
     </p>
 
     <script>
+      const formula = document.getElementById("formula");
+
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("formula")) {
+        formula.value = decodeURIComponent(params.get("formula"));
+      }
+
+      formula.addEventListener(
+        "keyup",
+        e => {
+          history.replaceState(null, '', `${window.location.pathname}?formula=${encodeURIComponent(e.target.value)}`);
+        }
+      )
+    </script>
+
+    <script>
       const SIZE = 16;
 
       const startTime = Date.now();
