@@ -110,9 +110,8 @@
 
             let radius;
             try {
-              const formula = `with(Math) { ${formulaElement.value} }`;
-              radius = eval(formula);
-            } catch {
+              radius = Function(`const t = ${t}; const r = ${r}; const th = ${th}; with(Math) { return ${formulaElement.value}; }`)();
+            } catch (e) {
               radius = 0;
             }
             if (radius > 1) radius = 1;
